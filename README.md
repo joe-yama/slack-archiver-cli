@@ -5,7 +5,19 @@
 
 ## Basic Usage
 
-### Listing channels with prefix
+### Installation
+
+```bash
+$ pip install slack-archiver-cli
+```
+
+### Set token
+
+```bash
+$ export SLACK_BOT_TOKEN = "xoxb-your-slack-bot-token"
+```
+
+### List channels with prefix
 
 ```bash
 $ list-channels channel-prefix
@@ -25,19 +37,23 @@ Archived channel: slackarchiver-test1
 Archived channel: slackarchiver-test2
 ```
 
-## Installation
+## Requirements
 
-```bash
-$ pip install slack-archiver-cli
-```
-
-### Requirements
+### Version and Dependencies
 
 - Python >= 3.7
 - Dependencies:
   - python-dotenv
   - fire
   - slack-sdk
+
+### Slack Bot Token OAuth & Permission Scopes
+
+- `channels:join`
+- `channels:manage`
+- `groups:write`
+- `im:write`
+- `mpim:write`
 
 ## License
 
