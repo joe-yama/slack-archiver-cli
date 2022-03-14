@@ -19,6 +19,7 @@ fire = "^0.4.0"
 [tool.poetry.dev-dependencies]
 pysen = {version = "^0.10.1", extras = ["lint"]}
 pytest = "^7.1.0"
+pytest-cov = "^3.0.0"
 
 [tool.poetry.scripts]
 list-channels = "slackarchiver.cli:cli_list_channels"
