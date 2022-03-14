@@ -5,6 +5,8 @@
 
 ## Basic Usage
 
+![UsageGIF](https://user-images.githubusercontent.com/17776221/158164007-3fba787e-208a-4686-b06f-17b47ff3bb73.gif)
+
 ### Installation
 
 ```bash

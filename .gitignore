@@ -130,4 +130,6 @@ dmypy.json
 
 # env
 .env
+
 poetry.lock
+.DS_Store
