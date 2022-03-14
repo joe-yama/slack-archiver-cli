@@ -1,6 +1,7 @@
 # slack-archiver-cli: A CLI tool to archive many slack channels at once
 
 ![PyPi ver](https://img.shields.io/pypi/v/slack-archiver-cli?style=flat-square)
+[![pysen](https://github.com/joe-yama/slack-archiver-cli/actions/workflows/pysen_lint.yml/badge.svg)](https://github.com/joe-yama/slack-archiver-cli/actions/workflows/pysen_lint.yml)
 ![LICENSE budge](https://img.shields.io/github/license/joe-yama/slack-archiver-cli?style=flat-square)
 
 ## Basic Usage
