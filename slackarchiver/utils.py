@@ -1,4 +1,5 @@
 import sys
+from typing import Dict
 
 
 def confirm_user_input(question: str, default: str = "yes") -> bool:
@@ -11,10 +12,15 @@ def confirm_user_input(question: str, default: str = "yes") -> bool:
 
     The "answer" return value is True for "yes" or False for "no".
     """
-    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
-    if default is None:
-        prompt = " [y/n] "
-    elif default == "yes":
+    valid: Dict[str, bool] = {
+        "yes": True,
+        "y": True,
+        "ye": True,
+        "no": False,
+        "n": False,
+    }
+    prompt: str = " [y/n] "
+    if default == "yes":
         prompt = " [Y/n] "
     elif default == "no":
         prompt = " [y/N] "
@@ -23,8 +29,8 @@ def confirm_user_input(question: str, default: str = "yes") -> bool:
 
     while True:
         sys.stdout.write(question + prompt)
-        choice = input().lower()
-        if default is not None and choice == "":
+        choice: str = input().lower()
+        if choice == "":
             return valid[default]
         elif choice in valid:
             return valid[choice]
