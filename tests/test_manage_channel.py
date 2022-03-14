@@ -1,7 +1,6 @@
 from typing import List
 
-from slackarchiver.manage_channel import list_channels
-from slackarchiver.manage_channel import Channel
+from slackarchiver.manage_channel import Channel, list_channels
 
 
 def test_list_channels() -> None:
