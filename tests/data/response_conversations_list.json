@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "channels": [
+    {
+      "id": "C1",
+      "name_normalized": "test-channel-1"
+    },
+    {
+      "id": "C2",
+      "name_normalized": "test-channel-2"
+    }
+  ],
+  "response_metadata": {
+    "next_cursor": ""
+  }
+}

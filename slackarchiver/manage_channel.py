@@ -1,14 +1,12 @@
 import sys
-from dataclasses import dataclass
-from typing import List
+from dataclasses import dataclass, field
+from typing import List, Optional
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackClientError
 from slack_sdk.web import SlackResponse
 from slackarchiver.settings import SLACK_BOT_TOKEN
 from slackarchiver.utils import confirm_user_input
-
-client: WebClient = WebClient(token=SLACK_BOT_TOKEN)
 
 
 @dataclass
@@ -20,6 +18,17 @@ class Channel:
         return self.name
 
 
+@dataclass
+class ArchiveResult:
+    success: Optional[bool] = None
+    reason: str = ""
+    listed_channels: List[Channel] = field(default_factory=list)
+    archived_channels: List[Channel] = field(default_factory=list)
+
+    def archived_append(self, channel: Channel) -> None:
+        self.archived_channels.append(channel)
+
+
 class SlackResponseError(SlackClientError):
     pass
 
@@ -28,7 +37,10 @@ def list_channels(
     channel_prefix: str = "",
     exclude_archived: bool = True,
     include_private_channels: bool = False,
+    client: Optional[WebClient] = None,
 ) -> List[Channel]:
+    if client is None:
+        client = WebClient(SLACK_BOT_TOKEN)
     next_cursor: str = ""  # for pagenation
     hit_channels: List[Channel] = []
     while True:
@@ -54,11 +66,20 @@ def list_channels(
 
 
 def archive_channels(
-    channel_prefix: str, include_private_channels: bool = False
-) -> None:
+    channel_prefix: str,
+    include_private_channels: bool = False,
+    yes: bool = False,
+    client: Optional[WebClient] = None,
+) -> ArchiveResult:
+    if client is None:
+        client = WebClient(SLACK_BOT_TOKEN)
+    result = ArchiveResult()
     target_channels: List[Channel] = list_channels(
         channel_prefix=channel_prefix, include_private_channels=include_private_channels
     )
+
+    result.listed_channels = target_channels
+
     for channel in target_channels:
         sys.stdout.write(str(channel) + "\n")
     sys.stdout.write(
@@ -66,9 +87,11 @@ def archive_channels(
     )
     if not target_channels:
         # hit no channels
-        return
+        result.success = False
+        result.reason = "hit no channel."
+        return result
 
-    if confirm_user_input(
+    if yes or confirm_user_input(
         f"Do you want to archive {len(target_channels):,d} channels?"
     ):
         for channel in target_channels:
@@ -78,9 +101,13 @@ def archive_channels(
             )
             if response_for_archive["ok"]:
                 sys.stdout.write(f"Archived channel: {channel}" + "\n")
+                result.archived_append(channel)
+        result.success = True
     else:
         sys.stdout.write(
             f"Don't worry! {len(target_channels):,d} channels were left unchanged."
             + "\n"
         )
-    return
+        result.success = False
+        result.reason = "terminate from user input."
+    return result
