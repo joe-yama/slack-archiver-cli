@@ -1,6 +1,6 @@
 import sys
-from dataclasses import dataclass, field
-from typing import List, Optional
+from dataclasses import asdict, dataclass, field
+from typing import Dict, List, Optional
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackClientError
@@ -70,10 +70,10 @@ def archive_channels(
     include_private_channels: bool = False,
     yes: bool = False,
     client: Optional[WebClient] = None,
-) -> ArchiveResult:
+) -> Dict:
     if client is None:
         client = WebClient(SLACK_BOT_TOKEN)
-    result = ArchiveResult()
+    result: ArchiveResult = ArchiveResult()
     target_channels: List[Channel] = list_channels(
         channel_prefix=channel_prefix, include_private_channels=include_private_channels
     )
@@ -89,7 +89,7 @@ def archive_channels(
         # hit no channels
         result.success = False
         result.reason = "hit no channel."
-        return result
+        return asdict(result)
 
     if yes or confirm_user_input(
         f"Do you want to archive {len(target_channels):,d} channels?"
@@ -110,4 +110,4 @@ def archive_channels(
         )
         result.success = False
         result.reason = "terminate from user input."
-    return result
+    return asdict(result)
