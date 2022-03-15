@@ -11,7 +11,7 @@ packages = [
 repository = "https://github.com/joe-yama/slack-archiver-cli"
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4"
+python = ">=3.8,<4"
 python-dotenv = "^0.19.2"
 slack-sdk = "^3.15.2"
 fire = "^0.4.0"
@@ -20,6 +20,8 @@ fire = "^0.4.0"
 pysen = {version = "^0.10.1", extras = ["lint"]}
 pytest = "^7.1.0"
 pytest-cov = "^3.0.0"
+pytest-mock = "^3.7.0"
+ipython = "^8.1.1"
 
 [tool.poetry.scripts]
 list-channels = "slackarchiver.cli:cli_list_channels"
@@ -38,7 +40,7 @@ line_length = 88
 py_version = "py38"
 
 [[tool.pysen.lint.mypy_targets]]
-  paths = ["."]
+  paths = [".", "./tests"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
