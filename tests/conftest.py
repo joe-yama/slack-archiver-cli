@@ -1,13 +1,14 @@
-import pytest
 from unittest.mock import MagicMock
 
+import pytest
 from pytest_mock.plugin import MockerFixture
 from slack_sdk import WebClient
-
-from testdata_loader import get_slackresponse
-from testdata_loader import response_conversations_list
-from testdata_loader import response_conversations_join
-from testdata_loader import response_conversations_archive
+from testdata_loader import (
+    get_slackresponse,
+    response_conversations_archive,
+    response_conversations_join,
+    response_conversations_list,
+)
 
 
 @pytest.fixture
